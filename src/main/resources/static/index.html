@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enemigos del Estado</title>
+
+    <!-- Enlace al CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Lista de enemigos</h1>
+
+    <table id="enemigosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Pais</th>
+                <th>Afiliacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="enemigosBody">
+            <!-- aqui se cargan los enemigos con js -->
+        </tbody>
+    </table>
+
+<!-- Formulario para insertar enemigos -->
+<div class="formulario-container">
+    <h2>Agregar nuevo enemigo</h2>
+    <form id="formInsertarEnemigo">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="pais">Pais</label>
+            <input type="text" id="pais" name="pais" required>
+        </div>
+        <div class="form-group">
+            <label for="afiliacion">Afiliacion</label>
+            <input type="text" id="afiliacion" name="afiliacion" required>
+        </div>
+        <button type="submit" id="btnSubmit">Agregar Enemigo</button>
+    </form>
+</div>
+
+<!-- Formulario para editar (esta oculto hasta que le des a editar) -->
+<div class="formulario-container" id="formEditarContainer" style="display: none;">
+    <h2>Editar enemigo</h2>
+    <form id="formEditarEnemigo">
+        <input type="hidden" id="editId">
+        <div class="form-group">
+            <label for="editNombre">Nombre</label>
+            <input type="text" id="editNombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="editPais">Pais</label>
+            <input type="text" id="editPais" name="pais" required>
+        </div>
+        <div class="form-group">
+            <label for="editAfiliacion">Afiliacion</label>
+            <input type="text" id="editAfiliacion" name="afiliacion" required>
+        </div>
+        <button type="submit" id="btnEditar">Guardar cambios</button>
+        <button type="button" id="btnCancelar" onclick="cancelarEdicion()">Cancelar</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
