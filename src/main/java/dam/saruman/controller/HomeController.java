@@ -3,8 +3,10 @@ package dam.saruman.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+@Controller // devuelve html
 public class HomeController {
+
+    //necesitamos este controlador para el html
 
     @RequestMapping
     public String index(){

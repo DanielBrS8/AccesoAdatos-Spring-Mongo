@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(del \"c:\\Users\\danie\\Documents\\Acceso a Datos\\demo\\src\\main\\java\\dam\\saruman\\Repository\\EnemigosRepository.java\")"
+    ]
+  }
+}

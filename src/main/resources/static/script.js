@@ -30,14 +30,15 @@ function mostrarEnemigos(enemigos){
     // recorremos el array y creamos una fila por cada enemigo
     enemigos.forEach(enemigo => {
         const tr = document.createElement('tr');
+        // el id de mongo es un string asi que hay que ponerle comillas
         tr.innerHTML = `
             <td>${enemigo.id}</td>
             <td>${enemigo.nombre}</td>
             <td>${enemigo.pais}</td>
             <td>${enemigo.afiliacion}</td>
             <td>
-                <button class="btn-editar" onclick="abrirFormularioEditar(${enemigo.id}, '${enemigo.nombre}', '${enemigo.pais}', '${enemigo.afiliacion}')">Editar</button>
-                <button class="btn-eliminar" onclick="eliminarEnemigo(${enemigo.id})">Eliminar</button>
+                <button class="btn-editar" onclick="abrirFormularioEditar('${enemigo.id}', '${enemigo.nombre}', '${enemigo.pais}', '${enemigo.afiliacion}')">Editar</button>
+                <button class="btn-eliminar" onclick="eliminarEnemigo('${enemigo.id}')">Eliminar</button>
             </td>
         `;
         tbody.appendChild(tr);

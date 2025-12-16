@@ -1,45 +1,35 @@
 package dam.saruman.model;
 
-
-import jakarta.persistence.*;
-
-// Clase que representa a un enemigo en la base de datos
-@Entity
-@Table(name="ENEMIGOS_DEL_ESTADO")
+// clase que representa un enemigo (lo usamos para pasar datos)
 public class Enemigo {
 
-    // id autogenerado
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    // el id en mongo es un string (ObjectId)
+    private String id;
 
-    @Column
     private String nombre;
 
-    @Column
     private String pais;
 
-    @Column
     private String afiliacion;
 
     // constructor con todos los campos
-    public Enemigo(Long id, String pais, String nombre, String afiliacion) {
+    public Enemigo(String id, String pais, String nombre, String afiliacion) {
         this.id = id;
         this.pais = pais;
         this.nombre = nombre;
         this.afiliacion = afiliacion;
     }
 
-    // constructor vacio que necesita jpa
-    public Enemigo(){
+    // constructor vacio
+    public Enemigo() {
 
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
