@@ -12,6 +12,22 @@
 
 <h1>Lista de enemigos</h1>
 
+<!-- barra de busqueda y botones -->
+<div class="controles">
+    <div class="busqueda">
+        <input type="text" id="inputBuscar" placeholder="Buscar por nombre...">
+        <button onclick="buscarEnemigos()">Buscar</button>
+        <button onclick="cargarEnemigos()">Mostrar todos</button>
+    </div>
+    <div class="botones-extra">
+        <button onclick="ordenarTabla()">Ordenar A-Z</button>
+        <button onclick="descargarCSV()">Descargar CSV</button>
+    </div>
+</div>
+
+<!-- div para mostrar mensajes de error -->
+<div id="mensajeError" class="error-mensaje" style="display: none;"></div>
+
     <table id="enemigosTable">
         <thead>
             <tr>

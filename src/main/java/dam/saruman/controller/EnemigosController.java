@@ -3,6 +3,7 @@ package dam.saruman.controller;
 import dam.saruman.model.Enemigo;
 import dam.saruman.service.EnemigosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,21 +35,38 @@ public class EnemigosController {
         }
     }
 
-    // crea un enemigo nuevo
+    // endpoint para buscar enemigos por nombre
+    @GetMapping("/enemigos/buscar")
+    public List<Enemigo> buscarPorNombre(@RequestParam String nombre){
+        return enemigosService.buscarPorNombre(nombre);
+    }
+
+    // crea un enemigo nuevo con validacion
     @PostMapping("/enemigo")
-    public Enemigo crearEnemigo(@RequestBody Enemigo enemigo){
-        return enemigosService.guardar(enemigo);
+    public ResponseEntity<?> crearEnemigo(@RequestBody Enemigo enemigo){
+        try{
+            Enemigo guardado = enemigosService.guardar(enemigo);
+            return ResponseEntity.ok(guardado);
+        }catch(IllegalArgumentException e){
+            // devolvemos el mensaje de error que viene del servicio
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // actualiza un enemigo existente
     @PutMapping("/enemigo/{id}")
-    public ResponseEntity<Enemigo> actualizarEnemigo(@PathVariable String id, @RequestBody Enemigo enemigo){
-        Enemigo actualizado = enemigosService.actualizar(id, enemigo);
-        if(actualizado != null){
-            return ResponseEntity.ok(actualizado);
-        }else{
-            // no se encontro el enemigo
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> actualizarEnemigo(@PathVariable String id, @RequestBody Enemigo enemigo){
+        try{
+            Enemigo actualizado = enemigosService.actualizar(id, enemigo);
+            if(actualizado != null){
+                return ResponseEntity.ok(actualizado);
+            }else{
+                // no se encontro el enemigo
+                return ResponseEntity.notFound().build();
+            }
+        }catch(IllegalArgumentException e){
+            // error de validacion
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

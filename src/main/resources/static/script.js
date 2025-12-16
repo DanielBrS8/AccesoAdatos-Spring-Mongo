@@ -1,4 +1,7 @@
 
+// variable global para guardar los enemigos actuales (para ordenar y eso)
+let enemigosActuales = [];
+
 // cuando carga la pagina pedimos los enemigos
 document.addEventListener('DOMContentLoaded', function() {
     cargarEnemigos();
@@ -9,10 +12,77 @@ async function cargarEnemigos(){
     try{
         const response = await fetch('/api/enemigos');
         const enemigos = await response.json();
+        enemigosActuales = enemigos; // guardamos en la variable global
         mostrarEnemigos(enemigos);
+        ocultarError(); // quitamos el error si habia alguno
     }catch (error){
         console.error('Error al cargar enemigos: ' + error);
     }
+}
+
+// funcion para buscar enemigos por nombre
+async function buscarEnemigos(){
+    const nombre = document.getElementById('inputBuscar').value;
+    if(nombre.trim() === ''){
+        // si no hay nada escrito cargamos todos
+        cargarEnemigos();
+        return;
+    }
+    try{
+        const response = await fetch('/api/enemigos/buscar?nombre=' + encodeURIComponent(nombre));
+        const enemigos = await response.json();
+        enemigosActuales = enemigos;
+        mostrarEnemigos(enemigos);
+    }catch(error){
+        console.error('Error al buscar: ' + error);
+    }
+}
+
+// funcion para ordenar la tabla por nombre alfabeticamente
+function ordenarTabla(){
+    // ordenamos el array de enemigos por nombre
+    enemigosActuales.sort((a, b) => {
+        return a.nombre.localeCompare(b.nombre);
+    });
+    mostrarEnemigos(enemigosActuales);
+}
+
+// funcion para descargar la tabla en formato CSV
+function descargarCSV(){
+    if(enemigosActuales.length === 0){
+        alert('No hay datos para descargar');
+        return;
+    }
+
+    // creamos el contenido del csv
+    let csv = 'ID,Nombre,Pais,Afiliacion\n';
+    enemigosActuales.forEach(enemigo => {
+        // escapamos las comas por si acaso
+        csv += `"${enemigo.id}","${enemigo.nombre}","${enemigo.pais}","${enemigo.afiliacion}"\n`;
+    });
+
+    // creamos un blob y lo descargamos
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'enemigos.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// funciones para mostrar y ocultar mensajes de error
+function mostrarError(mensaje){
+    const divError = document.getElementById('mensajeError');
+    divError.textContent = mensaje;
+    divError.style.display = 'block';
+}
+
+function ocultarError(){
+    const divError = document.getElementById('mensajeError');
+    divError.style.display = 'none';
 }
 
 // pinta los enemigos en la tabla
@@ -77,13 +147,15 @@ async function insertarEnemigo(e){
         if(response.ok){
             // limpiamos el formulario y recargamos la tabla
             document.getElementById('formInsertarEnemigo').reset();
+            ocultarError();
             await cargarEnemigos();
         }else{
+            // mostramos el error que viene del servidor
             const error = await response.text();
-            console.log('Error: ' + error);
+            mostrarError(error);
         }
     }catch(error){
-        console.log('Error al insertar: ' + error);
+        mostrarError('Error al insertar: ' + error);
     }finally{
         btnSubmit.disabled = false;
         btnSubmit.textContent = 'Agregar Enemigo';
@@ -141,12 +213,15 @@ async function editarEnemigo(e){
 
         if(response.ok){
             cancelarEdicion();
+            ocultarError();
             await cargarEnemigos();
         }else{
-            console.log('Error al actualizar');
+            // mostramos el error que devuelve el servidor
+            const error = await response.text();
+            mostrarError(error);
         }
     }catch(error){
-        console.log('Error: ' + error);
+        mostrarError('Error al actualizar: ' + error);
     }finally{
         btnEditar.disabled = false;
         btnEditar.textContent = 'Guardar cambios';
