@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(del \"c:\\Users\\danie\\Documents\\Acceso a Datos\\demo\\src\\main\\java\\dam\\saruman\\Repository\\EnemigosRepository.java\")"
+      "Bash(del \"c:\\Users\\danie\\Documents\\Acceso a Datos\\demo\\src\\main\\java\\dam\\saruman\\Repository\\EnemigosRepository.java\")",
+      "Bash(rm:*)",
+      "Bash(mvnw.cmd compile:*)",
+      "Bash(mvn compile:*)",
+      "Bash(mvnw.cmd clean compile:*)",
+      "Bash(cmd /c \"cd /d \"\"C:\\Users\\danie\\Documents\\Acceso a Datos\\demo\"\" && mvnw.cmd clean compile\")",
+      "Bash(powershell -Command \"Set-Location ''C:\\Users\\danie\\Documents\\Acceso a Datos\\demo''; .\\mvnw.cmd clean compile\")",
+      "Bash(mkdir:*)",
+      "Bash(copy:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(./mvnw.cmd clean compile:*)"
     ]
   }
 }
